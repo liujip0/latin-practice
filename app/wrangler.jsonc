@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "latin-practice",
+  "compatibility_date": "2025-08-01",
+  "send_metrics": false,
+  "assets": {
+    "directory": "build/client",
+    "not_found_handling": "single-page-application",
+  },
+  "observability": {
+    "logs": {
+      "enabled": true,
+    },
+  },
+}
