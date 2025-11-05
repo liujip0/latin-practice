@@ -7,7 +7,9 @@ import { createContext } from "./context.ts";
 import { appRouter } from "./routes/routes.ts";
 
 export interface Env {
-  DB: D1Database;
+  JWT_SECRET_KEY: string;
+
+  latin_practice_db: D1Database;
 }
 
 export default {

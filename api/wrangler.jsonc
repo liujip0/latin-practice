@@ -1,6 +1,13 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "latin-practice-api",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-08-01",
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "latin-practice-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-08-01",
+	"d1_databases": [
+		{
+			"binding": "latin_practice_db",
+			"database_name": "latin-practice-db",
+			"database_id": "1624758f-421e-4f63-bc73-97336be435f7"
+		}
+	],
 }
