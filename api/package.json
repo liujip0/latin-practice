@@ -14,7 +14,7 @@
     "@cloudflare/workers-types": "^4.20251014.0",
     "@types/jsonwebtoken": "^9.0.10",
     "typescript": "~5.9.3",
-    "wrangler": "^4.45.3"
+    "wrangler": "^4.45.4"
   },
   "dependencies": {
     "@trpc/server": "^11.7.1",
