@@ -11,6 +11,8 @@ export default function Index() {
       <Link to="/login">Login</Link>
       <Link to="/signup">Signup</Link>
       {checklogin.data?.username}
+      {checklogin.data?.username && <Link to="/practice">Practice</Link>}
+      {checklogin.data?.admin && <Link to="/managedb">Manage DB</Link>}
     </div>
   );
 }

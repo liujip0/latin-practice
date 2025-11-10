@@ -1,3 +1,5 @@
+FRONTEND_URL="http://localhost:5173"
+
 JWT_SECRET_KEY="77cvFFYs657jgS5ZRcl7yxZQsZtpye6S"
 
 ADMIN_USERNAME="admin"

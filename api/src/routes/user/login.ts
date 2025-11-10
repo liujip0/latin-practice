@@ -26,10 +26,46 @@ export const login = publicProcedure
     }
 
     if (user.results.length === 0) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "Invalid username or password",
-      });
+      if (opts.input.username !== opts.ctx.env.ADMIN_USERNAME) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Invalid username or password",
+        });
+      } else {
+        const passwordHash = await bcrypt.hash(opts.ctx.env.ADMIN_PASSWORD, 10);
+        const validPassword = await bcrypt.compare(
+          opts.input.password,
+          passwordHash
+        );
+
+        if (!validPassword) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Invalid username or password",
+          });
+        }
+
+        const createAdmin = await opts.ctx.env.latin_practice_db
+          .prepare("INSERT INTO Users (username, password_hash) VALUES (?, ?)")
+          .bind(opts.ctx.env.ADMIN_USERNAME, passwordHash)
+          .run();
+        if (!createAdmin.success) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to fetch user",
+          });
+        }
+
+        return jwt.sign(
+          {
+            username: opts.ctx.env.ADMIN_USERNAME,
+          },
+          opts.ctx.env.JWT_SECRET_KEY,
+          {
+            expiresIn: "7d",
+          }
+        );
+      }
     }
 
     const passwordHash = user.results[0].password_hash;

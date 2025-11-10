@@ -53,3 +53,14 @@ export const authedProcedure = t.procedure.use(async (opts) => {
     },
   });
 });
+
+export const adminProcedure = authedProcedure.use(async (opts) => {
+  if (opts.ctx.user.username !== opts.ctx.env.ADMIN_USERNAME) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Wrong permissions to access resource",
+    });
+  }
+
+  return opts.next();
+});

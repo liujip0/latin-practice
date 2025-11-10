@@ -7,6 +7,8 @@ import { createContext } from "./context.ts";
 import { appRouter } from "./routes/routes.ts";
 
 export interface Env {
+  FRONTEND_URL: string;
+
   JWT_SECRET_KEY: string;
 
   ADMIN_USERNAME: string;
@@ -21,9 +23,14 @@ export default {
       return new Response(null, {
         status: 204,
         headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept",
+          "Access-Control-Allow-Origin": env.FRONTEND_URL,
+          Vary: "Origin",
+          "Access-Control-Expose-Headers": "Content-Type,Authorization,Accept",
+          "Access-Control-Max-Age": (60 * 60 * 24).toString(),
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "Content-Type,Authorization,Accept,Accept-Language",
         },
       });
     }
