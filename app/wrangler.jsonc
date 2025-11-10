@@ -1,7 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "latin-practice",
-  "compatibility_date": "2025-08-01",
+  "compatibility_date": "2025-11-05",
+  "compatibility_flags": ["nodejs_compat"],
   "send_metrics": false,
   "assets": {
     "directory": "build/client",

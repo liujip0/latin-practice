@@ -27,11 +27,13 @@ CREATE TABLE IF NOT EXISTS Words (
     )
   ) NOT NULL,
   noun_declension TEXT CHECK (
-    declension IN ('1', '2', '3', '4', '5', 'irregular')
+    noun_declension IN ('1', '2', '3', '4', '5', 'irregular')
   ),
-  noun_gender TEXT CHECK (gender IN ('masculine', 'feminine', 'neuter')),
+  noun_gender TEXT CHECK (
+    noun_gender IN ('masculine', 'feminine', 'neuter')
+  ),
   verb_conjugation TEXT CHECK (
-    conjugation IN ('1', '2', '3', '3io', '4', 'irregular')
+    verb_conjugation IN ('1', '2', '3', '3io', '4', 'irregular')
   ),
   adjective_declension TEXT CHECK (adjective_declension IN ('1/2', '3', 'irregular')),
   preposition_object TEXT CHECK (preposition_object IN ('accusative', 'ablative')),

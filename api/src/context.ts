@@ -8,6 +8,12 @@ export const createContext = async ({
 }: FetchCreateContextFnOptions & {
   env: Env;
 }) => {
+  resHeaders.set("Access-Control-Allow-Origin", "*");
+  resHeaders.set("Access-Control-Allow-Methods", "GET,HEAD,POST,OPTIONS");
+  resHeaders.set(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Accept"
+  );
   return {
     req,
     env,

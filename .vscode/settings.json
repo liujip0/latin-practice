@@ -1,4 +1,4 @@
 {
-  "cSpell.words": ["isbot"],
+  "cSpell.words": ["checklogin", "isbot"],
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }

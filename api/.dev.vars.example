@@ -1,1 +1,4 @@
 JWT_SECRET_KEY="77cvFFYs657jgS5ZRcl7yxZQsZtpye6S"
+
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="password"
