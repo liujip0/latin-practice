@@ -19,39 +19,46 @@ export const authedProcedure = t.procedure.use(async (opts) => {
     });
   }
 
-  const validToken = jwt.verify(
-    token,
-    opts.ctx.env.JWT_SECRET_KEY
-  ) as jwt.JwtPayload;
-  if (!("username" in validToken)) {
+  try {
+    const validToken = jwt.verify(
+      token,
+      opts.ctx.env.JWT_SECRET_KEY
+    ) as jwt.JwtPayload;
+    if (!("username" in validToken)) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Missing or invalid token",
+      });
+    }
+
+    const user = await opts.ctx.env.latin_practice_db
+      .prepare("SELECT username FROM Users WHERE username = ?")
+      .bind(validToken.username)
+      .run<User>();
+
+    if (!user.success) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to fetch user",
+      });
+    }
+
+    return opts.next({
+      ...opts,
+      ctx: {
+        ...opts.ctx,
+        user: {
+          username: user.results[0].username,
+          created_at: user.results[0].created_at,
+        },
+      },
+    });
+  } catch (e) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "Missing or invalid token",
     });
   }
-
-  const user = await opts.ctx.env.latin_practice_db
-    .prepare("SELECT username FROM Users WHERE username = ?")
-    .bind(validToken.username)
-    .run<User>();
-
-  if (!user.success) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to fetch user",
-    });
-  }
-
-  return opts.next({
-    ...opts,
-    ctx: {
-      ...opts.ctx,
-      user: {
-        username: user.results[0].username,
-        created_at: user.results[0].created_at,
-      },
-    },
-  });
 });
 
 export const adminProcedure = authedProcedure.use(async (opts) => {

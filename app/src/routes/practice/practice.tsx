@@ -1,6 +1,8 @@
 import type { AlphabetLetter, Word } from "@latin-practice/api/src/dbtypes.ts";
 import { Button } from "@liujip0/components";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import { LOCAL_STORAGE_KEYS } from "../../localstorage.ts";
 import { trpc } from "../../trpc.ts";
 import type { PracticeQuestionTypes } from "./index.tsx";
@@ -37,6 +39,13 @@ export default function Practice({ setPage }: PracticeProps) {
       maxAlphabet,
     })
   );
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (wordlist.error && wordlist.error.data?.code === "UNAUTHORIZED") {
+      navigate("/");
+    }
+  }, [wordlist.error]);
 
   return (
     <div>

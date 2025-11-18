@@ -30,7 +30,7 @@ export const wordlist = authedProcedure
   .query(async (opts) => {
     const words = await opts.ctx.env.latin_practice_db
       .prepare(
-        `SELECT (
+        `SELECT
           id,
           latin_word1,
           latin_word2,
@@ -44,7 +44,7 @@ export const wordlist = authedProcedure
           adjective_declension,
           preposition_object,
           chapter
-        ) FROM Words
+        FROM Words
         WHERE
           part_of_speech IN (?) AND
           chapter BETWEEN ? AND ?;`
