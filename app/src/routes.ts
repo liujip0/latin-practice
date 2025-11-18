@@ -1,9 +1,4 @@
-import {
-  index,
-  prefix,
-  route,
-  type RouteConfig,
-} from "@react-router/dev/routes";
+import { index, route, type RouteConfig } from "@react-router/dev/routes";
 
 export default [
   index("routes/index.tsx"),
@@ -13,5 +8,5 @@ export default [
 
   route("managedb", "routes/managedb.tsx"),
 
-  ...prefix("practice", [index("routes/practice/index.tsx")]),
+  route("practice", "routes/practice/index.tsx"),
 ] satisfies RouteConfig;

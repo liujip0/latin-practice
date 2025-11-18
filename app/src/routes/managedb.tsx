@@ -1,7 +1,7 @@
 import type { Word } from "@latin-practice/api/src/dbtypes.ts";
 import { Button, Input, Select, Tabs } from "@liujip0/components";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { trpc } from "../trpc.ts";
 
 export default function ManageDB() {
@@ -18,6 +18,15 @@ export default function ManageDB() {
   const [chapter, setChapter] = useState("");
   const [chapterError, setChapterError] = useState("");
   const [submitError, setSubmitError] = useState("");
+
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
+  const submitKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    if (event.key === "Enter") {
+      submitButtonRef.current?.click();
+    }
+  };
 
   const addnoun = useMutation(
     trpc.db.addnoun.mutationOptions({
@@ -92,6 +101,8 @@ export default function ManageDB() {
                 label="Nominative Singular"
                 error={latin_word1Error !== ""}
                 helperText={latin_word1Error}
+                autoFocus
+                onKeyDown={submitKeyDown}
               />
               <Input
                 id="latin-word2"
@@ -100,6 +111,7 @@ export default function ManageDB() {
                 label="Genitive Singular"
                 error={latin_word2Error !== ""}
                 helperText={latin_word2Error}
+                onKeyDown={submitKeyDown}
               />
               <Input
                 id="english-translation"
@@ -108,6 +120,7 @@ export default function ManageDB() {
                 label="English Translation"
                 error={english_translationError !== ""}
                 helperText={english_translationError}
+                onKeyDown={submitKeyDown}
               />
               <Select
                 id="noun-declension"
@@ -144,8 +157,13 @@ export default function ManageDB() {
                 label="Chapter"
                 error={chapterError !== ""}
                 helperText={chapterError}
+                onKeyDown={submitKeyDown}
               />
-              <Button onClick={addnounSubmit}>Submit</Button>
+              <Button
+                ref={submitButtonRef}
+                onClick={addnounSubmit}>
+                Submit
+              </Button>
               <p>{submitError}</p>
             </div>
           ),
