@@ -45,7 +45,7 @@ export default function Practice({ setPage }: PracticeProps) {
     if (wordlist.error && wordlist.error.data?.code === "UNAUTHORIZED") {
       navigate("/");
     }
-  }, [wordlist.error]);
+  });
 
   return (
     <div>
